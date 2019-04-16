@@ -4,7 +4,7 @@ A collection of scripts to aid mixed linear model based GWAS with GEMMA
 ## Prerequisites
 You need to have the following installed
  -  PLINK 1.90 ( https://www.cog-genomics.org/plink2/ )
- - gemma
+ - gemma (https://github.com/genetics-statistics/GEMMA )
  - R (>=3.3))
 
 ##  Typical workflow
