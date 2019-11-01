@@ -22,7 +22,7 @@ kinship=$1 ; shift
 while getopts "c:p:Ht:o:" opt ; do
 	case $opt in 
 		c)  # COvariate file
-			covar_opt= " -c ${OPTARG} "
+			covar_opt=" -c ${OPTARG} "
 			;;
 		p)  # Phenotype file
 			pheno_file=${OPTARG}
@@ -105,6 +105,7 @@ fi
 command="gemma -lmm -bfile $geno -k $kinship -o ${outbase} ${covar_opt}"
 
 >&2 echo "Executing: $command "
+>&2 echo
 
 $command
 
