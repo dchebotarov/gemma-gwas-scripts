@@ -39,7 +39,9 @@ for(trait_name in trait_names ){
   fam_ph = fam_ph[, 1:6]
   # Save
   outname = paste0(fam_file, ".", trait_name, ".txt")
+ outname_1 = paste0("pheno1col-", fam_file, ".", trait_name, ".txt")
   write.table(fam_ph, outname, row.names = F, col.names = F, quote=F, sep=" ")
-
+  # Also save as one-column file
+  write.table(fam_ph[[6]], outname_1, row.names = F, col.names = F, quote=F, sep=" ")
 }
 
