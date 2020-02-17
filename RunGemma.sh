@@ -2,7 +2,7 @@
 
 
 usage() { 
-	echo "Usage: $0 plink_root kinship [ -c covariate ] [-p phenotype ] [-H phenotype has header] [-t trait_name] ";
+	echo "Usage: $0 plink_root kinship [ -c covariate ] [-p phenotype_fam ] [-H pheno file has header] [-t trait_name] ";
 	exit 1 ;
 	}
 
@@ -21,13 +21,13 @@ kinship=$1 ; shift
 ## Optional args
 while getopts "c:p:Ht:o:" opt ; do
 	case $opt in 
-		c)  # COvariate file
+		c)  # Covariate file
 			covar_opt=" -c ${OPTARG} "
 			;;
-		p)  # Phenotype file
+		p)  # Phenotype .fam file ( A PLINK .fam file with 6th column holding phenotype values)
 			pheno_file=${OPTARG}
 			;;
-		H)  # Pheno file has header
+		H)  # Pheno file has header.
 			pheno_has_header=1
 			;;
 		t) # Trait name
@@ -44,23 +44,18 @@ done
 
 shift $((OPTIND-1))
 
-			
 
-
-# Covariate file
-#covar=$1 ; shift
-
+# If no trait name is given, use today's date
 if [ -z "$trait_name" ] ; then
 	trait_name="Trait-"` date "+%m%d-%H%M.%S"`
 fi
 
 # Output file "basename" (may add suffixes to this)
-#outbase=${1:-gemma-result} ; shift
 if [ -z "$outbase" ] ; then
 	outbase="lmm-$trait_name"
 fi
 
-
+# The .fam file to be replaced
 famfile=${geno}.fam
 
 # Trait file
@@ -91,9 +86,7 @@ if [ ! -z "$pheno_file" ] ; then
 		tail -n+2 $pheno_file > $famfile
 	fi
 	replaced=$?
-	#fam_repl="tail -n+$(($pheno_has_header + 0))  $pheno_file > $famfile"
 	>&2 echo "Replacinf $famfile by $pheno_file"
-	#$fam_repl
 
 else
 	>&2 echo "Using phenotype info in the .fam file ${geno}.fam"
