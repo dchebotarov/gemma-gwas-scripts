@@ -90,4 +90,38 @@ qqman::manhattan(gwas, chr = "chr", bp = "ps", snp = "rs", p = "p_wald"
                  )
 dev.off()
 
+#############
+# by chromosome
+
+for(focus_chr in 1:12){
+
+  gwas1 = gwas[ gwas$chr == focus_chr, ]
+
+  xlim = c(0, max(gwas1$ps/1e6) )
+
+
+  png(filename = 
+      paste0(trait_name, "-manh-Chr", 
+             focus_chr,
+             ".png"), 
+     width = 8, height = 5, bg = "white", 
+	 units = "in", res = 300)
+   
+   qqman::manhattan(gwas1, chr = "chr", 
+                 bp = "ps", snp = "rs", 
+                 xlim = xlim,
+                 p = "p_wald"   
+                 #,annotatePval = 7e-7
+                 , main = trait_name
+                 , suggestiveline = 5
+                 , genomewideline = 6
+                 , ylim = c(0, 0.6 + max(-log10(gwas$p_wald), na.rm=T))
+                 )
+   dev.off()
+
+}
+
+
+# END #
+
 # gwas[ -log10(gwas$p_wald) > 5, c("rs", "chr", "ps")]
